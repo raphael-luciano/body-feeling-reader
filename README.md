@@ -1,3 +1,28 @@
+# RAPHAEL:
+
+Lembre se que tem passos aqui que estao em desacordo com o video e com os passos do github original
+
+github com codigo original: https://github.com/ildoonet/tf-pose-estimation
+video tutorial: https://www.youtube.com/watch?v=nUjGLjOmF7o
+
+obs: Na precisei instalar nada da NVIDEA, nada de GPU, nada alem do descrito no video/github. Tmb nao precisei instalar a para de libs do OpenCV pro windows (que dizia no video).
+
+
+
+Instalar dependencias:
+```
+pip install opencv-python --user
+pip install tensorflow-gpu
+pip install -r requirements.txt
+```
+
+Rodar:
+```python3 run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0```
+
+
+Outras bibliotecas interessantes: https://medium.com/@samim/human-pose-detection-51268e95ddc2 
+
+
 # tf-pose-estimation
 
 'Openpose', human pose estimation algorithm, have been implemented using Tensorflow. It also provides several variants that have some changes to the network structure for **real-time processing on the CPU or low-power embedded devices.**
