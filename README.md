@@ -8,56 +8,84 @@ This project aims to detect emotions from a body reading algorithm. The first st
 ### Get code and pre-build stuff
 
 - Clone this repository:
+```
 $ git clone git@github.com:raphael-luciano/body-feeling-reader.git
+```
 
 - For this project we are using Python3.7
+```
 $ sudo apt install python3
+```
 
 - Make sure you have Pip3 installed
+```
 $ sudo apt-get install python3-pip
+```
 
 - We are also using virtual env to keep dependencies isolated from global environment
+```
 sudo pip3 install virtualenv
+```
 
 - Build c++ library for post processing, needed for this project (installing the swig first). 
+```
 sudo apt install swig
 cd tf_pose/pafprocess
 swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
+```
 
 - Pre-Install Jetson case, needed for this project
+```
 sudo apt-get install libllvm-7-ocaml-dev libllvm7 llvm-7 llvm-7-dev llvm-7-doc llvm-7-examples llvm-7-runtime
 export LLVM_CONFIG=/usr/bin/llvm-config-7 
+```
 
 
 
 ### Install Dependencies
 
 - Create virutal environment, on the project's root directory:
+```
 virtualenv venv
+```
 
 - Activate the virutal env
+```
 source venv/bin/activate
+```
 
 - Install C extensions for python (Cython)
+```
 pip3 install --upgrade cython
+```
 
 - Install numpy
+```
 pip3 install numpy
+```
 
 - Install other dependemcies of the project
+```
 pip3 install -r requirements.txt
+```
 
 - Install TensorFlow
+```
 pip3 install -q tensorflow==1.14 (required v1.14, v2+ don't have tensorflow.contrib, which is used here)
 pip3 install tensorflow-gpu (maybe you need to specify version as well. I didn't have to)
+```
 
 
 - Install OpenCV
+```
 pip3 install opencv-python
+```
 
 - Download Tensorflow Graph File (* *optional, I guess =)*)
+```
 $ cd models/graph/cmu
 $ bash download.sh
+```
 
 
 
