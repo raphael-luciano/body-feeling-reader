@@ -42,7 +42,7 @@ export LLVM_CONFIG=/usr/bin/llvm-config-7
 
 
 
-### Install Dependencies
+### Install Dependencies (note: all ```pip3 install``` should be inside the virtual env - ensure the ```(venv)``` appears at the begining of the line)
 
 - Create virutal environment, on the project's root directory:
 ```
