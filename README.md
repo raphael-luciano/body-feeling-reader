@@ -2,147 +2,88 @@
 
 Lembre se que tem passos aqui que estao em desacordo com o video e com os passos do github original
 
-github com codigo original: https://github.com/ildoonet/tf-pose-estimation
-video tutorial: https://www.youtube.com/watch?v=nUjGLjOmF7o
 
-obs: Na precisei instalar nada da NVIDEA, nada de GPU, nada alem do descrito no video/github. Tmb nao precisei instalar a para de libs do OpenCV pro windows (que dizia no video).
+## SetUp
+
+### Get code and pre build stuff
+
+# Clone this repository:
+git clone git@github.com:raphael-luciano/body-feeling-reader.git
+
+# For this project we are using Python3.7
+sudo apt install python3
+
+# Make sure you have Pip3 installed
+sudo apt-get install python3-pip
+
+# We are also using virtual env to keep dependencies isolated from global environment
+sudo pip3 install virtualenv
+
+# Build c++ library for post processing, needed for this project (installing the swig first). 
+sudo apt install swig
+cd tf_pose/pafprocess
+swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
+
+# Pre-Install Jetson case, needed for this project
+sudo apt-get install libllvm-7-ocaml-dev libllvm7 llvm-7 llvm-7-dev llvm-7-doc llvm-7-examples llvm-7-runtime
+export LLVM_CONFIG=/usr/bin/llvm-config-7 
 
 
 
-Instalar dependencias:
-```
-pip install opencv-python --user
-pip install tensorflow-gpu
-pip install -r requirements.txt
-```
+### Install Dependencies
 
-Rodar:
-```python3 run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0```
+# Create virutal environment, on the project's root directory:
+virtualenv venv
+
+# Activate the virutal env
+source venv/bin/activate
+
+# Install C extensions for python (Cython)
+pip3 install --upgrade cython
+
+# Install numpy
+pip3 install numpy
+
+# Install other dependemcies of the project
+pip3 install -r requirements.txt
+
+# Install TensorFlow
+pip3 install -q tensorflow==1.14 (required v1.14, v2+ don't have tensorflow.contrib, which is used here)
+pip3 install tensorflow-gpu (maybe you need to specify version as well. I didn't have to)
 
 
-Outras bibliotecas interessantes: https://medium.com/@samim/human-pose-detection-51268e95ddc2 
+# Install OpenCV
+pip3 install opencv-python
 
-
-# tf-pose-estimation
-
-'Openpose', human pose estimation algorithm, have been implemented using Tensorflow. It also provides several variants that have some changes to the network structure for **real-time processing on the CPU or low-power embedded devices.**
-
-**You can even run this on your macbook with a descent FPS!**
-
-Original Repo(Caffe) : https://github.com/CMU-Perceptual-Computing-Lab/openpose
-
-| CMU's Original Model</br> on Macbook Pro 15" | Mobilenet-thin </br>on Macbook Pro 15" | Mobilenet-thin</br>on Jetson TX2 |
-|:---------|:--------------------|:----------------|
-| ![cmu-model](/etcs/openpose_macbook_cmu.gif)     | ![mb-model-macbook](/etcs/openpose_macbook_mobilenet3.gif) | ![mb-model-tx2](/etcs/openpose_tx2_mobilenet3.gif) |
-| **~0.6 FPS** | **~4.2 FPS** @ 368x368 | **~10 FPS** @ 368x368 |
-| 2.8GHz Quad-core i7 | 2.8GHz Quad-core i7 | Jetson TX2 Embedded Board | 
-
-Implemented features are listed here : [features](./etcs/feature.md)
-
-## Important Updates
-
-- 2019.3.12 Add new models using mobilenet-v2 architecture. See : [experiments.md](./etcs/experiments.md)
-- 2018.5.21 Post-processing part is implemented in c++. It is required compiling the part. See: https://github.com/ildoonet/tf-pose-estimation/tree/master/src/pafprocess
-- 2018.2.7 Arguments in run.py script changed. Support dynamic input size.
-
-## Install
-
-### Dependencies
-
-You need dependencies below.
-
-- python3
-- tensorflow 1.4.1+
-- opencv3, protobuf, python3-tk
-- slidingwindow
-  - https://github.com/adamrehn/slidingwindow
-  - I copied from the above git repo to modify few things.
-
-### Pre-Install Jetson case
-
-```bash
-$ sudo apt-get install libllvm-7-ocaml-dev libllvm7 llvm-7 llvm-7-dev llvm-7-doc llvm-7-examples llvm-7-runtime
-$ export LLVM_CONFIG=/usr/bin/llvm-config-7 
-```
-
-### Install
-
-Clone the repo and install 3rd-party libraries.
-
-```bash
-$ git clone https://www.github.com/ildoonet/tf-pose-estimation
-$ cd tf-pose-estimation
-$ pip3 install -r requirements.txt
-```
-
-Build c++ library for post processing. See : https://github.com/ildoonet/tf-pose-estimation/tree/master/tf_pose/pafprocess
-```
-$ cd tf_pose/pafprocess
-$ swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
-```
-
-### Package Install
-
-Alternatively, you can install this repo as a shared package using pip.
-
-```bash
-$ git clone https://www.github.com/ildoonet/tf-pose-estimation
-$ cd tf-pose-estimation
-$ python setup.py install  # Or, `pip install -e .`
-```
-
-## Models & Performances
-
-See [experiments.md](./etc/experiments.md)
-
-### Download Tensorflow Graph File(pb file)
-
-Before running demo, you should download graph files. You can deploy this graph on your mobile or other platforms.
-
-- cmu (trained in 656x368)
-- mobilenet_thin (trained in 432x368)
-- mobilenet_v2_large (trained in 432x368)
-- mobilenet_v2_small (trained in 432x368)
-
-CMU's model graphs are too large for git, so I uploaded them on an external cloud. You should download them if you want to use cmu's original model. Download scripts are provided in the model folder.
-
-```
+# Download Tensorflow Graph File (* *optional, I guess =)*)
 $ cd models/graph/cmu
 $ bash download.sh
-```
 
-## Demo
+
+
+## Run
 
 ### Test Inference
 
-You can test the inference feature with a single image.
+Test the inference feature with a single image (image flag MUST be relative, wihout \~)
 
 ```
 $ python run.py --model=mobilenet_thin --resize=432x368 --image=./images/p1.jpg
 ```
 
-The image flag MUST be relative to the src folder with no "~", i.e:
-```
---image ../../Desktop
-```
 
-Then you will see the screen as below with pafmap, heatmap, result and etc.
-
-![inferent_result](./etcs/inference_result2.png)
-
-### Realtime Webcam
+### Run with realtime Webcam
 
 ```
 $ python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0
 ```
 
-Apply TensoRT 
+Apply TensoRT (not working for now, I didn't have time to figure this out yet)
 
 ```
 $ python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0 --tensorrt=True
 ```
 
-Then you will see the realtime webcam screen with estimated poses as below. This [Realtime Result](./etcs/openpose_macbook13_mobilenet2.gif) was recored on macbook pro 13" with 3.1Ghz Dual-Core CPU.
 
 ## Python Usage
 
@@ -163,6 +104,19 @@ import tf_pose
 coco_style = tf_pose.infer(image_path)
 ```
 
+## References
+
+Github with original code taken by this project:
+https://github.com/ildoonet/tf-pose-estimation
+
+video tutorial (not updated with the above github code/steps):
+https://www.youtube.com/watch?v=nUjGLjOmF7o
+
+Other interesting libraries/links (Face, Gender and age classification, Person Identification, Motion Prediction and Emotion Detection):
+https://medium.com/@samim/human-pose-detection-51268e95ddc2 
+
+
+
 ## ROS Support
 
 See : [etcs/ros.md](./etcs/ros.md)
@@ -171,6 +125,7 @@ See : [etcs/ros.md](./etcs/ros.md)
 
 See : [etcs/training.md](./etcs/training.md)
 
-## References
+## References Inside this Project
 
 See : [etcs/reference.md](./etcs/reference.md)
+
