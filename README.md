@@ -9,17 +9,17 @@ This project aims to detect emotions from a body reading algorithm. The first st
 
 - Clone this repository:
 ```
-$ git clone git@github.com:raphael-luciano/body-feeling-reader.git
+  git clone git@github.com:raphael-luciano/body-feeling-reader.git
 ```
 
 - For this project we are using Python3.7
 ```
-$ sudo apt install python3
+sudo apt install python3
 ```
 
 - Make sure you have Pip3 installed
 ```
-$ sudo apt-get install python3-pip
+sudo apt-get install python3-pip
 ```
 
 - We are also using virtual env to keep dependencies isolated from global environment
@@ -83,8 +83,8 @@ pip3 install opencv-python
 
 - Download Tensorflow Graph File (* *optional, I guess =)*)
 ```
-$ cd models/graph/cmu
-$ bash download.sh
+cd models/graph/cmu
+bash download.sh
 ```
 
 
@@ -96,20 +96,20 @@ $ bash download.sh
 Test the inference feature with a single image (image flag MUST be relative, wihout \~)
 
 ```
-$ python run.py --model=mobilenet_thin --resize=432x368 --image=./images/p1.jpg
+python run.py --model=mobilenet_thin --resize=432x368 --image=./images/p1.jpg
 ```
 
 
 ### Run with realtime Webcam
 
 ```
-$ python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0
+python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0
 ```
 
 Apply TensoRT (not working for now, I didn't have time to figure this out yet)
 
 ```
-$ python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0 --tensorrt=True
+python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0 --tensorrt=True
 ```
 
 
