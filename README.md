@@ -93,16 +93,21 @@ bash download.sh
 
 ## Run
 
-### Test Inference
+### Run with a Single Image
 
 Test the inference feature with a single image (image flag MUST be relative, wihout \~)
 
 ```
-python run.py --model=mobilenet_thin --resize=432x368 --image=./images/p1.jpg
+python run.py --model=mobilenet_thin --resize=432x368 --image=./images/image.jpg
 ```
 
+### Run with Video
 
-### Run with realtime Webcam
+```
+python run_video.py --video=videos/video.mp4
+```
+
+### Run with Realtime Webcam
 
 ```
 python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0

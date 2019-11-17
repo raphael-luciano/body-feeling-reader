@@ -16,6 +16,7 @@ formatter = logging.Formatter('[%(asctime)s] [%(name)s] [%(levelname)s] %(messag
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
+RESIZE_OUT_RATIO = 4.0
 fps_time = 0
 
 
@@ -39,7 +40,7 @@ if __name__ == '__main__':
     while cap.isOpened():
         ret_val, image = cap.read()
 
-        humans = e.inference(image)
+        humans = e.inference(image, upsample_size=RESIZE_OUT_RATIO)
         if not args.showBG:
             image = np.zeros(image.shape)
         image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
