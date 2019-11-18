@@ -73,7 +73,7 @@ pip3 install -r requirements.txt
 
 - Install TensorFlow
 ```
-pip3 install -q tensorflow==1.14 (required v1.14, v2+ don't have tensorflow.contrib, which is used here)
+pip3 install tensorflow==1.14 (required v1.14, v2+ don't have tensorflow.contrib, which is used here)
 pip3 install tensorflow-gpu (maybe you need to specify version as well. I didn't have to)
 ```
 
